@@ -1,0 +1,126 @@
+
+// import { GraphQLClient, gql } from "graphql-request";
+
+// const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
+
+
+// export default async function comments(res, req){
+
+//     const graphQLClient = new GraphQLClient(graphqlAPI, {
+//         headers:{
+//             authorization : `Bearer ${process.env.GRAPHCMS_TOKEN }`
+//         }
+//     })
+
+//     const query = gql `
+//      mutation CreateComment( $name : String! , $email : String! ,  $comment : String! , $slug : String! ){
+//          createComment(data: {name: $name , email: $email, comment: $comment, post: {connect: {slug: $slug}}}) {id}
+//      }
+//     `
+
+//     const result = await graphQLClient.request( query , {name , email, slug, comment
+//     })
+
+//     return res.status(200).send(result);
+// }
+
+
+/*
+import React, {useState, useEffect, useRef} from 'react'
+
+import { submitComment } from '../services';
+
+const CommentsForm = () => {
+
+  const [error , setError] = useState(false);
+  const [localStroage , setLocalStorage] = useState(null);
+  const [showSuccessMessage , setShowSuccessMessage ] = useState(false);
+  
+ const commentEl = useRef();
+ const nameEl = useRef();
+ const emailEl = useRef();
+ const storeDataEl = useRef();
+
+ useEffect(() => {
+    nameEl.current.value = window.localStorage.getItem('name');
+    emailEl.current.value = window.localStorage.getItem('email');
+ }, [])
+
+
+ const handleCommentSubmission = () =>{
+     setError(false);
+
+     const {value: comment} = commentEl.current;
+     const {value: name} = nameEl.current;
+     const {value: email} = emailEl.current;
+     const {checked: storeData} = storeDataEl.current;
+
+   if(!comment || !name || !email){
+       setError(false)
+       return;
+   }
+   
+   const commentObj = {name, email, comment, slug};
+
+   if(storeData){
+     window.localStroage.setItem('name' , name);
+     window.localStroage.setItem('email' , email);
+   }else{
+    window.localStroage.remove('name' , name);
+    window.localStroage.remove('email' , email);
+   }
+
+   submitComment(commentObj)
+   .then((res) => {
+     setShowSuccessMessage(true);
+
+     setTimeout(() =>{
+       setShowSuccessMessage(false);
+
+     }, 3000 );
+   })
+ }
+
+  return (
+    <div className='bg-white shadow-lg rounded-lg p-8 pb-12 mb-8'>
+        <h3 className='text-xl mb-8 font-semibold mb-4 border-b'>Leave a comment</h3>
+        <div className='grid grid-cols-1 gap-4 mb-4'>
+            <textarea 
+            ref={commentEl} 
+            className="p-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700" 
+            name="comment" 
+            id="" 
+            placeholder='Write a comment....'>
+
+            </textarea>
+        </div>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4'>
+            <input 
+            type="text" 
+            ref={nameEl}
+            placeholder="Name"
+            name='name'
+            className="py-2 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"/>
+            <input 
+            type="text" 
+            ref={emailEl}
+            placeholder="Email"
+            name='name'
+            className="py-2 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"/>
+        </div>
+             <div className='grid grid-cols-1 gap-4 mb-4'>
+                 <div>
+                 <input className='checkbox' ref={storeDataEl} type="checkbox" value="true" name="storeData" id="storeData" />
+                 <label htmlFor="storeData">Save my Name and Email for next time I comment</label>
+                 </div>
+             </div>
+         {error && <p className='text-xs text-red-500'>All fields are required</p>}
+         <div className='mt-8'>
+            <button onClick={handleCommentSubmission} className='post-button'>SUBMIT</button>
+            {showSuccessMessage && <span className='text-xl mt-3 text-green-300'>Comment submitted successfully</span>}
+         </div>
+    </div>
+  )
+}
+
+export default CommentsForm
