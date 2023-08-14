@@ -28,8 +28,8 @@ const PostCard = ( {post}) => {
                          </div>
                          <div className='reading text-centre'>
                               <Link href={`/post/${post.slug}`}>
-                                <div className='continue-reading'>
-                                <span className='continue-button'>
+                                <div className='continue-reading' style={{cursor:'pointer'}}>
+                                <span className='continue-button' >
                                      Continue Reading
                                 </span>
                                 </div>

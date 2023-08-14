@@ -20,11 +20,11 @@ const Categories = () => {
          Categories
     </h3>
          {categories.map((category) =>(
-             <Link  key={category.slug} href={`category/${category.slug}`}>
+            
                <span className='category'>
                    {category.name}
                </span>
-             </Link>
+             
          ))}
     </div>
   );
