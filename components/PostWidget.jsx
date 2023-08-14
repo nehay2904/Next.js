@@ -28,13 +28,13 @@ console.log(relatedPosts);
          {relatedPosts.map((post) => (
            <div key={post.title} className="recent flex items-centre w-full mb-4">
              <div className='w-16 flex-none'>
-             <img 
+             {/* <img 
               src={post.featuredImage.url} 
               alt={post.title}
                height="60px"
                width="60px"
                className='align-middle rounded-full'
-              />
+              /> */}
              </div>
              <div className='flex-grow ml-4'>
                          <p className='text-gray-500'>
